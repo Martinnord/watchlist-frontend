@@ -82,7 +82,7 @@ function App() {
     <ChakraProvider>
       <header>
         <Container p={6} m="0">
-          <Heading size="md">Watchlist to Trading View</Heading>
+          <Heading size="md">Watchlist to TradingView</Heading>
         </Container>
       </header>
       <main>
