@@ -9,6 +9,10 @@ import {
   Textarea,
   Heading,
   Select,
+  AspectRatio,
+  Stack,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
@@ -16,8 +20,9 @@ function App() {
   const {
     handleSubmit,
     register,
+    reset,
     formState: { isSubmitting },
-  } = useForm({ defaultValues: { author: "mathovermyth", watchList: "" } });
+  } = useForm();
   const toast = useToast();
 
   const onSubmit = async (values) => {
@@ -50,6 +55,7 @@ function App() {
         link.click();
         link.parentNode.removeChild(link);
 
+        reset();
         toast({
           title: "Download Successful",
           description: "Your file has been downloaded.",
@@ -81,41 +87,63 @@ function App() {
       </header>
       <main>
         <Container centerContent p={6}>
-          <VStack
-            as="form"
-            onSubmit={handleSubmit(onSubmit)}
-            spacing={4}
-            align="stretch"
-            w="full"
-          >
-            <FormControl isRequired>
-              <FormLabel htmlFor="author">Author</FormLabel>
-              <Select
-                id="author"
-                {...register("author")}
-                placeholder="Select author"
-              >
-                <option value="mathovermyth">mathovermyth</option>
-              </Select>
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel htmlFor="watchList">Watch List</FormLabel>
-              <Textarea
-                id="watchList"
-                type="text"
-                h="20rem"
-                {...register("watchList")}
-              />
-            </FormControl>
-            <Button
-              mt={4}
-              colorScheme="teal"
-              isLoading={isSubmitting}
-              type="submit"
+          <Stack spacing={8} w="full">
+            <Box>
+              <Heading size="md" mb={2}>
+                How to Use
+              </Heading>
+              <Text>
+                If you're unsure how to use this tool, watch the video below:
+              </Text>
+              <AspectRatio ratio={16 / 9} my={4}>
+                <iframe
+                  width="560"
+                  height="315"
+                  src="https://www.youtube.com/embed/6rUz-cAQ1wI?si=uBOF21gls_n7uG6j"
+                  title="YouTube video player"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                ></iframe>
+              </AspectRatio>
+            </Box>
+
+            <VStack
+              as="form"
+              onSubmit={handleSubmit(onSubmit)}
+              spacing={4}
+              align="stretch"
+              w="full"
             >
-              Download
-            </Button>
-          </VStack>
+              <FormControl isRequired>
+                <FormLabel htmlFor="author">Author</FormLabel>
+                <Select
+                  id="author"
+                  {...register("author")}
+                  placeholder="Select author"
+                >
+                  <option value="mathovermyth">Mathovermyth</option>
+                  <option value="crisp">Crisp</option>
+                </Select>
+              </FormControl>
+              <FormControl isRequired>
+                <FormLabel htmlFor="watchList">Watch List</FormLabel>
+                <Textarea
+                  id="watchList"
+                  type="text"
+                  h="20rem"
+                  {...register("watchList")}
+                />
+              </FormControl>
+              <Button
+                mt={4}
+                colorScheme="blue"
+                isLoading={isSubmitting}
+                type="submit"
+              >
+                Download
+              </Button>
+            </VStack>
+          </Stack>
         </Container>
       </main>
     </ChakraProvider>
