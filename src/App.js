@@ -13,11 +13,21 @@ import {
   Stack,
   Box,
   Text,
+  Image,
+  Link,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import ReactGA from "react-ga4";
 
 ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+
+function BuyMeACoffeeButton(props) {
+  return (
+    <Link isExternal href="https://www.buymeacoffee.com/xaEkLT2PqR" {...props}>
+      <Image h="10" alt="Buy Me a Coffee Widget" src="/bmc-button.png" />
+    </Link>
+  );
+}
 
 function App() {
   const {
@@ -142,6 +152,13 @@ function App() {
                   {...register("watchList")}
                 />
               </FormControl>
+              <Stack justify="center" align="center" spacing={3}>
+                <Text>
+                  If this helped you, <br />
+                  consider supporting me with a coffee.
+                </Text>
+                <BuyMeACoffeeButton />
+              </Stack>
               <Button
                 mt={4}
                 colorScheme="blue"
