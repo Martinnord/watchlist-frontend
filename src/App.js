@@ -15,6 +15,9 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
+import ReactGA from "react-ga4";
+
+ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
 
 function App() {
   const {
@@ -27,6 +30,11 @@ function App() {
 
   const onSubmit = async (values) => {
     try {
+      ReactGA.event({
+        category: "Download",
+        action: "Download watchlist",
+        label: values.author,
+      });
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/create-watchlist`,
         {
