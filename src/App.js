@@ -19,7 +19,11 @@ import {
 import { useForm } from "react-hook-form";
 import ReactGA from "react-ga4";
 
-ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+const isProd = process.env.NODE_ENV === "production";
+
+if (isProd) {
+  ReactGA.initialize(process.env.REACT_APP_GA_TRACKING_ID);
+}
 
 function BuyMeACoffeeButton(props) {
   return (
@@ -34,17 +38,19 @@ function App() {
     handleSubmit,
     register,
     reset,
-    formState: { isSubmitting },
+    formState: { isSubmitting, isValid },
   } = useForm();
   const toast = useToast();
 
   const onSubmit = async (values) => {
     try {
-      ReactGA.event({
-        category: "Download",
-        action: "Download watchlist",
-        label: values.author,
-      });
+      if (isProd) {
+        ReactGA.event({
+          category: "Download",
+          action: "Download watchlist",
+          label: values.author,
+        });
+      }
       const response = await fetch(
         `${process.env.REACT_APP_BACKEND_URL}/create-watchlist`,
         {
@@ -136,7 +142,7 @@ function App() {
                 <FormLabel htmlFor="author">Author</FormLabel>
                 <Select
                   id="author"
-                  {...register("author")}
+                  {...register("author", { required: true })}
                   placeholder="Select author"
                 >
                   <option value="mathovermyth">Mathovermyth</option>
@@ -149,11 +155,11 @@ function App() {
                   id="watchList"
                   type="text"
                   h="20rem"
-                  {...register("watchList")}
+                  {...register("watchList", { required: true })}
                 />
               </FormControl>
               <Stack justify="center" align="center" spacing={3}>
-                <Text>
+                <Text textAlign="center">
                   If this helped you, <br />
                   consider supporting me with a coffee.
                 </Text>
@@ -163,6 +169,7 @@ function App() {
                 mt={4}
                 colorScheme="blue"
                 isLoading={isSubmitting}
+                isDisabled={!isValid}
                 type="submit"
               >
                 Download
