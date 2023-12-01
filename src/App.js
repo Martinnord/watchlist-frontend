@@ -147,6 +147,8 @@ function App() {
                 >
                   <option value="mathovermyth">Mathovermyth</option>
                   <option value="crisp">Crisp</option>
+                  <option value="yahoo-finance">Yahoo Finance</option>
+                  <option value="other">Other</option>
                 </Select>
               </FormControl>
               <FormControl isRequired>
